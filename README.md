@@ -1,4 +1,4 @@
-# Mini blog build using React
+# Mini blog built using React
 
 This project was built following the tutorial: https://www.youtube.com/watch?v=9D1x7-2FmTA
 
