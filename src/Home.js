@@ -1,22 +1,22 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PostList from './PostList';
 
 const Home = () => {
-  const [posts, setPosts] = useState([
-    { title: 'My new website', body: 'lorem ipsum...', author: 'mario', id: 1 },
-    { title: 'Welcome party!', body: 'lorem ipsum...', author: 'yoshi', id: 2 },
-    { title: 'Web dev top tips', body: 'lorem ipsum...', author: 'mario', id: 3 }
-  ])
+  const [posts, setPosts] = useState(null);
   
-  const handleDelete = (id) => {
-    const newPosts = posts.filter(post => post.id !== id);
-    setPosts(newPosts);
-  }
+  useEffect(async() => {
+    fetch('http://localhost:8000/posts')
+      .then(res => {
+        return res.json()
+      })
+      .then(data => {
+        setPosts(data);
+      })
+  }, []);
 
   return ( 
     <div className="home!">
-      <PostList posts={posts} title="All posts!" handleDelete={handleDelete}/>
-      <PostList posts={posts.filter((post) => post.author === 'mario')} title="Mario's posts!"/>
+      {posts && <PostList posts={posts} title="All posts!" />}
     </div>
    );
 }
