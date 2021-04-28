@@ -1,29 +1,9 @@
 import { useState, useEffect } from 'react';
 import PostList from './PostList';
+import useFetch from './useFetch';
 
 const Home = () => {
-  const [posts, setPosts] = useState(null);
-  const [isPending, setIsPending] = useState(true);
-  const [error, setError] = useState(null)
-
-  useEffect(async() => {
-    fetch('http://localhost:8000/posts')
-      .then(res => {
-        if(!res.ok){
-          throw Error('could not fetch data for this resource');
-        }
-        return res.json()
-      })
-      .then(data => {
-        setPosts(data);
-        setIsPending(false);
-        setError(null);
-      })
-      .catch(err => {
-        setIsPending(false);
-        setError(err.message);
-      })
-  }, []);
+  const { data: posts, isPending, error} = useFetch('http://localhost:8000/posts');
 
   return ( 
     <div className="home!">
